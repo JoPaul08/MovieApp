@@ -97,21 +97,21 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies/Edit/5
+        // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Movie == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var movie = await _context.Movie.FindAsync(id);
-            if (movie == null)
+            var Movie = await _context.Movie.FindAsync(id);
+            if (Movie == null)
             {
                 return NotFound();
             }
-            return View(movie);
+            return View(Movie);
         }
-
         // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

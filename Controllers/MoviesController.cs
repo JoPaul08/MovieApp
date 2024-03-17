@@ -56,11 +56,10 @@ namespace MvcMovie.Controllers
 
             return View(movieGenreVM);
         }
-
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Movie == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -74,6 +73,7 @@ namespace MvcMovie.Controllers
 
             return View(movie);
         }
+        // GET: Movies/Details/5
 
         // GET: Movies/Create
         public IActionResult Create()
@@ -172,21 +172,36 @@ namespace MvcMovie.Controllers
             return View(movie);
         }
 
+        // GET: Movies/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movie = await _context.Movie
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return View(movie);
+        }
+
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Movie == null)
-            {
-                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
-            }
             var movie = await _context.Movie.FindAsync(id);
             if (movie != null)
             {
                 _context.Movie.Remove(movie);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
